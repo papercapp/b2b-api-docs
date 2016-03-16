@@ -17,3 +17,5 @@ will be available on your localhost:
 
   * Swagger UI: [http://localhost:8080/]
   * Swagger Editor: [http://localhost:8080/editor/]
+
+Detailed information about the OpenAPI specification can be found [here](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
