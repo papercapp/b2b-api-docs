@@ -1,9 +1,9 @@
 Endpoint documentation
 ======================
 
-.. swaggerdoc:: http://petstore.swagger.wordnik.com/api/api-docs/pet
+.. swaggerdoc:: http://petstore.swagger.io/#!/pet/addPet
 
-.. swaggerdoc:: http://petstore.swagger.wordnik.com/api/api-docs/user
+.. swaggerdoc:: http://petstore.swagger.io/#!/user/createUser
 
 .. http:get:: /users/(int:user_id)/posts/(tag)
 
