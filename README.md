@@ -1,21 +1,21 @@
 # b2b-api-docs
 
-This repository hosts all files required for creating and serving our B2B API documentation.
+Written in API Blueprint, based on Apiary.
 
-## General usage and workflow descriptions
+## Static API docs
+[Aglio](https://github.com/danielgtaylor/aglio) is used to compile the `apiary.apib` to a stand-alone HTML representation.
 
-*to be written*
+### Dependencies
+* newest node/npm (with working [node-gyp](https://github.com/nodejs/node-gyp))
 
-## API endpoint descriptions
+### Installation
+* npm install -g aglio
 
-API endpoint descriptions are created with the toolset of the [Swagger API framework](http://swagger.io/), particularly
-with [Swagger UI](http://swagger.io/swagger-ui/) and [Swagger Editor](http://swagger.io/swagger-editor/). API consumers
-may also find [Swagger Codegen](http://swagger.io/swagger-codegen/) to be very convenient.
+##### Windows
+* install newest node
+* ``npm install -g npm-windows-upgrade``
+* ``npm-windows-upgrade``
+* follow the [node-gyp installation guide for windows](https://github.com/nodejs/node-gyp#installation)
 
-After you set up the [paperc-com](https://github.com/papercapp/paperc-com) development VM, the above mentioned tools
-will be available on your localhost:
-
-  * Swagger UI: [http://localhost:8080/]
-  * Swagger Editor: [http://localhost:8080/editor/]
-
-Detailed information about the OpenAPI specification can be found [here](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
+### Usage
+* ``aglio -i apiary.apib -o build/output.html``
