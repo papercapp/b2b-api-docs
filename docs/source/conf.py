@@ -34,6 +34,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinxcontrib.httpdomain',
+    'sphinx_swagger',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

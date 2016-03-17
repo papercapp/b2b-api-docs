@@ -1,6 +1,10 @@
 Endpoint documentation
 ======================
 
+.. swaggerdoc:: http://petstore.swagger.wordnik.com/api/api-docs/pet
+
+.. swaggerdoc:: http://petstore.swagger.wordnik.com/api/api-docs/user
+
 .. http:get:: /users/(int:user_id)/posts/(tag)
 
    The posts tagged with `tag` that the user (`user_id`) wrote.
