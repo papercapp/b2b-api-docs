@@ -7,7 +7,7 @@ This is an in-depth documentation of the PaperC Business-2-Business API
 
 # Glossary
 
-JWT: JSON Web Token
+* JWT: JSON Web Token
 
 # General API usage
 
@@ -73,91 +73,19 @@ You also may use multiple fields to refine ordering:
 
 `ordering=-last_name,first_name` will order the result by __descending__ last names and __ascending__ first names.
 
-# Obtaining B2B booklists and logging in clients
-* get your JWT
-* [Obtain a new JWT](#client_jwt_obtain)
+# Common tasks and workflows
+
+* Obtain booklists
+  * [get your JWT](#client_jwt_obtain)
+  * `GET` [/api/booklists](#client_jwt_obtain)
 
 <a name="client_jwt_obtain"></a>
 ## Obtain a new JWT [POST /auth/client_jwt/obtain]
-Retrieve a JSON Web Token (JWT) that will authenticate you as an eligible B2B user on any other endpoint.
+Retrieve a JWT that will authenticate you as an eligible B2B user on any other endpoint.
 
 + Request (application/x-www-form-urlencoded)
 
         secret_key=mysecretkey
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
 
 + Response 201 (application/json)
 
