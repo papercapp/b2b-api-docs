@@ -52,7 +52,26 @@ To do so, add the `page_size=x` parameter to the URL.
 
 # Filtering & Ordering
 
-lorem ipsum
+__Filtering__ an endpoint can be achieved by adding a filter expression as a parameter to the URL.  
+A filter expression consists of the field's name you want to filter by, followed by a double undercore, followed by the lookup type, followed by an equals sign, followed by the threshold value. A few examples:
+
+`age__gte=21` will list any record where `age` is __greater or equals to__ 21.
+
+`last_name__startswith=Do` will list any record where `last_name` __starts with__ 'Do'.
+
+`last_name=Doe` will list any record where `last_name` is __exactly__ 'Doe'.
+
+If you know the Django Web Framework, this will look very familiar to you. A list of all available lookup types can be found [here](https://docs.djangoproject.com/en/1.8/ref/models/querysets/#field-lookups).
+
+__Ordering__ can be achieved by adding the parameter `ordering=fieldname` to the URL. A few examples:
+
+`ordering=last_name` will order the result by __asceding__ last names.
+
+`ordering=-last_name` will order the result by __descending__ last names.
+
+You also may use multiple fields to refine ordering:
+
+`ordering=-last_name,first_name` will order the result by __descending__ last names and __ascending__ first names.
 
 # Obtaining B2B booklists and logging in clients
 * get your JWT
