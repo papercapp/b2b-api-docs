@@ -77,7 +77,7 @@ You also may use multiple fields to refine ordering:
 
 * Obtain booklists
   * [get your JWT](#client_jwt_obtain)
-  * `GET` [/api/booklists](#client_jwt_obtain)
+  * `GET` [/api/booklists](#get_booklists)
 
 # Group Authentication
 
@@ -123,17 +123,17 @@ Retrieve a JWT that will authenticate you as an eligible B2B user on any other e
 <a name="user_jwt_obtain"></a>
 Retrieve a JWT for one of your users. The user will be created if unknown at [paperc.com](https://paperc.com), assuming this is part of our cooperation agreement.
 
-+ Parameters
-
-    + user_email (required, string) ... The user's email address.
-    + user_language (optional, string) ... The user's language. Must be 'de' or 'en'. Defaults to 'de'.
-    + user_country (optional, string) ... The user's country. Must be an ISO 3166-1 alpha-2 literal. Defaults to 'DE'.
-
 + Request (application/x-www-form-urlencoded)
 
     + Headers
     
             Authorization: JWT your.foo.token
+    
+    + Attributes
+    
+        + user_email (required, string) - The user's email address.
+        + user_language (optional, string) - The user's language. Must be 'de' or 'en'. Defaults to 'de'.
+        + user_country (optional, string) - The user's country. Must be an ISO 3166-1 alpha-2 literal. Defaults to 'DE'.
     
     + Body
     
@@ -158,6 +158,49 @@ Retrieve a JWT for one of your users. The user will be created if unknown at [pa
                     "code": "SOME_ERROR_CODE",
                     "message": "A detailed description of what went wrong."
                 }
+            }
+
++ Response 403 (application/json)
+            
+    + Body
+    
+            {
+                "detail": {
+                    "code": "SOME_ERROR_CODE",
+                    "message": "A detailed description of what went wrong."
+                }
+            }
+
+# Group Book lists
+
+## Get available book lists [GET /booklists]
+<a name="get_booklists"></a>
+Retrieve a list of all book lists available to you.
+
++ Request (application/x-www-form-urlencoded)
+
+    + Headers
+    
+            Authorization: JWT your.foo.token
+
++ Response 200 (application/json)
+            
+    + Attributes
+    
+        + id: (required, number) - The unique id of the book list.
+        + name: (required, string) - The name of the book list.
+        + description: (required, string) - A short description of the book list.
+        + book_count: (required, number) - The amount of books in the book list.
+        + url: (required, string) - The URL to retrieve the book list.
+    
+    + Body
+    
+            {
+                "id": 1,
+                "name": "John Doe's book list",
+                "description": "This book list contains books about John's favorite subjects."
+                "book_count": 15,
+                "url": "/api/booklists/1"
             }
 
 + Response 403 (application/json)
