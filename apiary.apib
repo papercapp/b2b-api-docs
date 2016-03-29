@@ -6,13 +6,57 @@ HOST: https://paperc.com/api
 This is an in-depth documentation of the PaperC Business-2-Business API
 
 # Glossary
+
 JWT: JSON Web Token
+
+# General API usage
+
+* __Encoding__  
+All transmitted data should be `UTF-8` encoded.
+* __Media types__  
+Requests should always contain `application/x-www-form-urlencoded` data.  
+Endpoints will always return `application/json` data.
+* __Authorization HTTP headers__  
+Whenever authorization by a JWT is required, the JWT must be send in the Authorization HTTP header declaring the mechanism as `JWT` (e.g. `JWT my.foo.token`).
+
+# Pagination
+
+Some endpoints may return a large set of results (e.g. lists of books). To keep response times low, those endpoints will return __paginated data__.
+
+A paginated result may look like this:
+
+```javascript
+{
+  'count': 13,
+  'next': 'https://foo.bar/endpoint?page=2',
+  'previous': null,
+  'results': [
+    {
+      'foo': 'bar'
+    },
+    ...
+  ]
+}
+```
+
+`count` states the total amount of results.
+
+`next` states the URL that will return the next set of results (may be `null` if there is no next set). Note the `page=x` URL parameter.
+
+`previous` states the URL that will return the previous set of results (may be `null` if there is no previous set). Note the `page=x` URL parameter.
+
+`results` states the actual results of the current pagination set as an array of JSON objects.
+
+Although we fit all paginated endpoints with sane default pagination sizes you may want to change the size of a pagination set.  
+To do so, add the `page_size=x` parameter to the URL.
+
+# Filtering & Ordering
+
+lorem ipsum
 
 # Obtaining B2B booklists and logging in clients
 * get your JWT
 * [Obtain a new JWT](#client_jwt_obtain)
-
-# Authentication
 
 <a name="client_jwt_obtain"></a>
 ## Obtain a new JWT [POST /auth/client_jwt/obtain]
