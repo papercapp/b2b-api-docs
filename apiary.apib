@@ -78,6 +78,7 @@ You also may use multiple fields to refine ordering:
 * Obtain booklists
   * [get your JWT](#client_jwt_obtain)
   * `GET` [/api/booklists](#get_booklists)
+  * `GET` [/api/booklist/{booklist_id}](#get_booklist)
 
 # Group Authentication
 
@@ -173,7 +174,7 @@ Retrieve a JWT for one of your users. The user will be created if unknown at [pa
 
 # Group Book lists
 
-## Get available book lists [GET /booklists]
+## Get all available book lists [GET /booklists]
 <a name="get_booklists"></a>
 Retrieve a list of all book lists available to you.
 
@@ -201,6 +202,69 @@ Retrieve a list of all book lists available to you.
                 "description": "This book list contains books about John's favorite subjects."
                 "book_count": 15,
                 "url": "/api/booklists/1"
+            }
+
++ Response 403 (application/json)
+            
+    + Body
+    
+            {
+                "detail": {
+                    "code": "SOME_ERROR_CODE",
+                    "message": "A detailed description of what went wrong."
+                }
+            }
+
+## Get a particular book list [GET /booklists/{booklist_id}]
+<a name="get_booklists"></a>
+Retrieve a particular book list to view the books inside.
+
++ Parameters
+
+    + booklist_id: (required, number) - The unique id of the book list.
+
++ Request (application/x-www-form-urlencoded)
+
+    + Headers
+    
+            Authorization: JWT your.foo.token
+
++ Response 200 (application/json)
+            
+    + Attributes
+    
+        + id: (required, number) - The unique id of the book list.
+        + name: (required, string) - The name of the book list.
+        + description: (required, string) - A short description of the book list.
+        + books: (required, object) - A paginated enumeration of books as JSON objects.
+    
+    + Body
+    
+            {
+                "id": 1,
+                "name": "John Doe's book list",
+                "description": "This book list contains books about John's favorite subjects."
+                "books": {
+                    "count": 15,
+                    "results": {
+                        {
+                            "pk": 21465,
+                            "title": "The Foo Bar Book",
+                            "isbn": "9780745637167",
+                            "author: "John Doe",
+                            "description": "A book about all the Foo Bar in John Doe's life.",
+                            "cover_image_url": "/path/to/image",
+                            "cover_image_thumbnail_url": "/path/to/thumbnail",
+                            "public_url": "path/to/book/in/reader",
+                            "detail_url": "path/to/book/details"
+                        },
+                        ...
+                    }
+                    "links": {
+                        "previous": null,
+                        "next": null
+                    }
+                }
             }
 
 + Response 403 (application/json)
