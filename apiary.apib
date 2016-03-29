@@ -17,7 +17,7 @@ All transmitted data should be `UTF-8` encoded.
 Requests should always contain `application/x-www-form-urlencoded` data.  
 Endpoints will always return `application/json` data.
 * __Authorization HTTP headers__  
-Whenever authorization by a JWT is required, the JWT must be send in the Authorization HTTP header declaring the mechanism as `JWT` (e.g. `JWT my.foo.token`).
+Whenever authorization by a JWT is required, the JWT must be send in the Authorization HTTP header declaring the mechanism as `JWT` (e.g. `JWT your.foo.token`).
 
 # Pagination
 
@@ -79,38 +79,94 @@ You also may use multiple fields to refine ordering:
   * [get your JWT](#client_jwt_obtain)
   * `GET` [/api/booklists](#client_jwt_obtain)
 
-<a name="client_jwt_obtain"></a>
+# Group Authentication
+
 ## Obtain a new JWT [POST /auth/client_jwt/obtain]
+<a name="client_jwt_obtain"></a>
 Retrieve a JWT that will authenticate you as an eligible B2B user on any other endpoint.
 
 + Request (application/x-www-form-urlencoded)
 
         secret_key=mysecretkey
+        
++ Response 200 (application/json)
+            
+    + Body
+    
+            {
+                "token": "your.foo.token"
+            }
 
-+ Response 201 (application/json)
++ Response 400 (application/json)
+            
+    + Body
+    
+            {
+                "detail": {
+                    "code": "SOME_ERROR_CODE",
+                    "message": "A detailed description of what went wrong."
+                }
+            }
+
++ Response 403 (application/json)
+            
+    + Body
+    
+            {
+                "detail": {
+                    "code": "SOME_ERROR_CODE",
+                    "message": "A detailed description of what went wrong."
+                }
+            }
+
+## Obtain a new user JWT [POST /auth/client_jwt/obtain_user_token]
+<a name="user_jwt_obtain"></a>
+Retrieve a JWT for one of your users. The user will be created if unknown at [paperc.com](https://paperc.com), assuming this is part of our cooperation agreement.
+
++ Parameters
+
+    + user_email (required, string) ... The user's email address.
+    + user_language (optional, string) ... The user's language. Must be 'de' or 'en'. Defaults to 'de'.
+    + user_country (optional, string) ... The user's country. Must be an ISO 3166-1 alpha-2 literal. Defaults to 'DE'.
+
++ Request (application/x-www-form-urlencoded)
 
     + Headers
-
-            Location: /questions/2
-
+    
+            Authorization: JWT your.foo.token
+    
     + Body
-
+    
+            user_email=mail@user.com
+            user_language=en
+            user_Country=US
+        
++ Response 200 (application/json)
+            
+    + Body
+    
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "token": "your.foo.token"
+            }
+
++ Response 400 (application/json)
+            
+    + Body
+    
+            {
+                "detail": {
+                    "code": "SOME_ERROR_CODE",
+                    "message": "A detailed description of what went wrong."
+                }
+            }
+
++ Response 403 (application/json)
+            
+    + Body
+    
+            {
+                "detail": {
+                    "code": "SOME_ERROR_CODE",
+                    "message": "A detailed description of what went wrong."
+                }
             }
