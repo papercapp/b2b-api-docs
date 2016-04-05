@@ -50,7 +50,7 @@ A paginated result may look like this:
 Although we fit all paginated endpoints with sane default pagination sizes you may want to change the size of a pagination set.  
 To do so, add the `page_size=x` parameter to the URL.
 
-# Filtering & Ordering
+# Filtering and Ordering
 
 __Filtering__ an endpoint can be achieved by adding a filter expression as a parameter to the URL.  
 A filter expression consists of the field's name you want to filter by, followed by a double undercore, followed by the lookup type, followed by an equals sign, followed by the threshold value. A few examples:
@@ -75,15 +75,22 @@ You also may use multiple fields to refine ordering:
 
 # Common tasks and workflows
 
-* Obtain booklists
-  * [get your JWT](#client_jwt_obtain)
-  * `GET` [/api/booklists](#get_booklists)
-  * `GET` [/api/booklist/{booklist_id}](#get_booklist)
+<a name="task_obtain_book_lists"></a>
+### Obtain book lists
+1. [get your JWT](#client_jwt_obtain)
+2. `GET` [/api/booklists](#get_booklists)
+3. `GET` [/api/booklist/{booklist_id}](#get_booklist)
+
+<a href="task_use_book_lists"></a>
+### Use book lists
+1. [Obtain a book list](#task_obtain_book_lists) you want to use.
+2. The response of the book list endpoint contains all information you need about our books.  
+   E.g. `result.books` contains `public_url` that opens the book in the PaperC-Reader, whereas `detail_url` routes to the shop page.
 
 # Group Authentication
 
-## Obtain a new JWT [POST /auth/client_jwt/obtain]
 <a name="client_jwt_obtain"></a>
+## Obtain a new JWT [POST /auth/client_jwt/obtain]
 Retrieve a JWT that will authenticate you as an eligible B2B user on any other endpoint.
 
 + Request (application/x-www-form-urlencoded)
@@ -120,8 +127,8 @@ Retrieve a JWT that will authenticate you as an eligible B2B user on any other e
                 }
             }
 
-## Obtain a new user JWT [POST /auth/client_jwt/obtain_user_token]
 <a name="user_jwt_obtain"></a>
+## Obtain a new user JWT [POST /auth/client_jwt/obtain_user_token]
 Retrieve a JWT for one of your users. The user will be created if unknown at [paperc.com](https://paperc.com), assuming this is part of our cooperation agreement.
 
 + Request (application/x-www-form-urlencoded)
@@ -174,8 +181,8 @@ Retrieve a JWT for one of your users. The user will be created if unknown at [pa
 
 # Group Book lists
 
-## Get all available book lists [GET /booklists]
 <a name="get_booklists"></a>
+## Get all available book lists [GET /booklists]
 Retrieve a list of all book lists available to you.
 
 + Request (application/x-www-form-urlencoded)
@@ -215,8 +222,8 @@ Retrieve a list of all book lists available to you.
                 }
             }
 
-## Get a particular book list [GET /booklists/{booklist_id}]
 <a name="get_booklists"></a>
+## Get a particular book list [GET /booklists/{booklist_id}]
 Retrieve a particular book list to view the books inside.
 
 + Parameters
