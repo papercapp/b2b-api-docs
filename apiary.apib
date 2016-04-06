@@ -5,6 +5,9 @@ HOST: https://paperc.com/api
 
 This is an in-depth documentation of the PaperC Business-2-Business API.
 
+__Please note:__ If you are watching this documentation on [apiary.io](https://apiary.io), internal links to paranthesis will not work due to Apiary's cut back Markdown implementation.  
+Alternatively use the documentation hosted on [PaperC.com](https://paperc.com/docs).
+
 # Glossary
 
 * JWT: JSON Web Token
@@ -76,33 +79,29 @@ You also may use multiple fields to refine ordering:
 # Common tasks and workflows
 This is a step-by-step guide for a number of common tasks and worklows that you might encounter when working with our API.
 
-<a name="task_automated_user_login"></a>
 ### Automated user login
 To make all features of PaperC available to your customer and deliver him an overall much better user experience, it's a good idead to use our automated user login system whenever you redirect a customer to out platform (e.g. to our shop or the epub reader).
 
-1. [Retrieve a user JWT](#user_jwt_obtain) for your customer.
+1. [Retrieve a user JWT](#authentication-obtain-a-new-user-jwt-post) for your customer.
 2. Include the retrieved JWT in the `Authorization` header of your redirecting request. Our platform will recognize the token and automatically log in the asociated user!
 
-<a name="task_obtain_book_lists"></a>
 ### Obtain book lists
 Book lists contain a lot of detailed information about our books that you may want to process for your own customers.  
 Check out the detailed endpoint descriptions to see sample results.
 
-1. [Retrieve your JWT](#client_jwt_obtain)
-2. `GET` [/api/booklists](#get_booklists)
-3. `GET` [/api/booklist/{booklist_id}](#get_booklist)
+1. [Retrieve your JWT](#authentication-obtain-a-new-user-jwt-post)
+2. `GET` [/api/booklists](#book-lists-get-all-available-book-lists-get)
+3. `GET` [/api/booklist/{booklist_id}](#book-lists-get-a-particular-book-list-get)
 
-<a name="task_use_book_lists"></a>
 ### Offer a book to your customers
 Books obtained via a book list have (amongst others) a `public_url` and a `detail_url` that you can redirect your customers to.
 
-1. [Obtain a book list](#task_obtain_book_lists) you want to work with.
+1. [Obtain a book list](#header-obtain-book-lists) you want to work with.
 2. Redirect your user to `https://paperc.com/<public_or_detail_url>`.  
-   _Hint_: This is a good opportunity to make use of our [automated login system](#task_automated_user_login)!
+   _Hint_: This is a good opportunity to make use of our [automated login system](#header-automated-user-login)!
 
 # Group Authentication
 
-<a name="client_jwt_obtain"></a>
 ## Obtain a new JWT [POST /auth/client_jwt/obtain]
 Retrieve a JWT that will authenticate you as an eligible B2B user on any other endpoint.
 
@@ -140,7 +139,6 @@ Retrieve a JWT that will authenticate you as an eligible B2B user on any other e
                 }
             }
 
-<a name="user_jwt_obtain"></a>
 ## Obtain a new user JWT [POST /auth/client_jwt/obtain_user_token]
 Retrieve a JWT for one of your users. The user will be created if unknown at [paperc.com](https://paperc.com), assuming this is part of our cooperation agreement.
 
@@ -194,7 +192,6 @@ Retrieve a JWT for one of your users. The user will be created if unknown at [pa
 
 # Group Book lists
 
-<a name="get_booklists"></a>
 ## Get all available book lists [GET /booklists]
 Retrieve a list of all book lists available to you.
 
@@ -235,7 +232,6 @@ Retrieve a list of all book lists available to you.
                 }
             }
 
-<a name="get_booklists"></a>
 ## Get a particular book list [GET /booklists/{booklist_id}]
 Retrieve a particular book list to view the books inside.
 
