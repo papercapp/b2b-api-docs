@@ -74,18 +74,31 @@ You also may use multiple fields to refine ordering:
 `ordering=-last_name,first_name` will order the result by __descending__ last names and __ascending__ first names.
 
 # Common tasks and workflows
+This is a step-by-step guide for a number of common tasks and worklows that you might encounter when working with our API.
+
+<a name="task_automated_user_login"></a>
+### Automated user login
+To make all features of PaperC available to your customer and deliver him an overall much better user experience, it's a good idead to use our automated user login system whenever you redirect a customer to out platform (e.g. to our shop or the epub reader).
+
+1. [Retrieve a user JWT](#user_jwt_obtain) for your customer.
+2. Include the retrieved JWT in the `Authorization` header of your redirecting request. Our platform will recognize the token and automatically log in the asociated user!
 
 <a name="task_obtain_book_lists"></a>
 ### Obtain book lists
-1. [get your JWT](#client_jwt_obtain)
+Book lists contain a lot of detailed information about our books that you may want to process for your own customers.  
+Check out the detailed endpoint descriptions to see sample results.
+
+1. [Retrieve your JWT](#client_jwt_obtain)
 2. `GET` [/api/booklists](#get_booklists)
 3. `GET` [/api/booklist/{booklist_id}](#get_booklist)
 
-<a href="task_use_book_lists"></a>
-### Use book lists
-1. [Obtain a book list](#task_obtain_book_lists) you want to use.
-2. The response of the book list endpoint contains all information you need about our books.  
-   E.g. `result.books` contains `public_url` that opens the book in the PaperC-Reader, whereas `detail_url` routes to the shop page.
+<a name="task_use_book_lists"></a>
+### Offer a book to your customers
+Books obtained via a book list have (amongst others) a `public_url` and a `detail_url` that you can redirect your customers to.
+
+1. [Obtain a book list](#task_obtain_book_lists) you want to work with.
+2. Redirect your user to `https://paperc.com/<public_or_detail_url>`.  
+   _Hint_: This is a good opportunity to make use of our [automated login system](#task_automated_user_login)!
 
 # Group Authentication
 
