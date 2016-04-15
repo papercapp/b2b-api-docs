@@ -5,15 +5,15 @@ HOST: https://paperc.com/api
 
 This is an in-depth documentation of the PaperC Business-2-Business API.
 
-This documentation is served to you on two ways: [PaperC.com](https://paperc.com/docs) and [Apiary](https://docs.paperc.apiary.io/).  
+This documentation is accessible in two ways: via [PaperC.com/docs](https://paperc.com/docs) and [Apiary.io](https://docs.paperc.apiary.io/).  
 They both provide the exact same information, but the Apiary documentation gives you the option to live-test endpoints. This functionality is __not__ given in the documentation at PaperC.com.
 
 __Please note:__ If you are watching this documentation on Apiary.io, internal links to paranthesis will not work due to Apiary's cut back Markdown implementation.  
-Alternatively use the documentation hosted on PaperC.com.
+Alternatively use the documentation [hosted on Paperc.com](https://paperc.com/docs).
 
 # Glossary
 
-* JWT: JSON Web Token
+* JWT: [JSON Web Token](https://jwt.io/)
 
 # General API usage
 
@@ -23,7 +23,7 @@ All transmitted data should be `UTF-8` encoded.
 Requests should always contain `application/x-www-form-urlencoded` data.  
 Endpoints will always return `application/json` data.
 * __Authorization HTTP headers__  
-Whenever authorization by a JWT is required, the JWT must be send in the Authorization HTTP header declaring the mechanism as `JWT` (e.g. `JWT your.foo.token`).
+Whenever authorization by a JWT is required, the JWT must be send in the `Authorization` HTTP header declaring the mechanism as `JWT` (e.g. `JWT your.foo.token`).
 
 # Pagination
 
@@ -45,15 +45,15 @@ A paginated result may look like this:
 }
 ```
 
-`count` states the total amount of results.
+`count` the total amount of results.
 
-`next` states the URL that will return the next set of results (may be `null` if there is no next set). Note the `page=x` URL parameter.
+`next` the URL that will return the next set of results (may be `null` if there is no next set). Note the `page=x` URL parameter.
 
-`previous` states the URL that will return the previous set of results (may be `null` if there is no previous set). Note the `page=x` URL parameter.
+`previous` the URL that will return the previous set of results (may be `null` if there is no previous set). Note the `page=x` URL parameter.
 
-`results` states the actual results of the current pagination set as an array of JSON objects.
+`results` the actual results of the current pagination set as an array of JSON objects.
 
-Although we fit all paginated endpoints with sane default pagination sizes you may want to change the size of a pagination set.  
+Although endpoints with paginated data are preconfigured with sane default pagination sizes you may want to change the size of a pagination set.  
 To do so, add the `page_size=x` parameter to the URL.
 
 # Filtering and Ordering
@@ -71,7 +71,7 @@ If you know the Django Web Framework, this will look very familiar to you. A lis
 
 __Ordering__ can be achieved by adding the parameter `ordering=fieldname` to the URL. A few examples:
 
-`ordering=last_name` will order the result by __asceding__ last names.
+`ordering=last_name` will order the result by __ascending__ last names.
 
 `ordering=-last_name` will order the result by __descending__ last names.
 
@@ -80,17 +80,21 @@ You also may use multiple fields to refine ordering:
 `ordering=-last_name,first_name` will order the result by __descending__ last names and __ascending__ first names.
 
 # Group Common tasks and workflows
-This is a step-by-step guide for a number of common tasks and worklows that you might encounter when working with our API.
+This is a step-by-step guide for a number of common tasks and workflows that you might encounter when working with our API.
 
 ## Automated user login
-To make all features of PaperC available to your customer and deliver him an overall much better user experience, it's a good idead to use our automated user login system whenever you redirect a customer to out platform (e.g. to our shop or the epub reader).
+To make all features of PaperC available to your customer and deliver him an overall much better user experience, it's a good idea to use our automated user login system whenever you redirect a customer to our platform (e.g. to our shop or the e-book reader).
+
+Steps:
 
 1. [Retrieve a user JWT](#authentication-obtain-a-new-user-jwt-post) for your customer.
-2. Include the retrieved JWT in the `Authorization` header of your redirecting request. Our platform will recognize the token and automatically log in the asociated user!
+2. Include the retrieved JWT in the `Authorization` header of your redirecting request. Our platform will recognize the token and automatically log in the associated user!
 
 ## Obtain book lists
 Book lists contain a lot of detailed information about our books that you may want to process for your own customers.  
 Check out the detailed endpoint descriptions to see sample results.
+
+Steps:
 
 1. [Retrieve your JWT](#authentication-obtain-a-new-jwt-post)
 2. `GET` [/api/booklists](#book-lists-get-all-available-book-lists-get)
@@ -98,6 +102,8 @@ Check out the detailed endpoint descriptions to see sample results.
 
 ## Offer a book to your customers
 Books obtained via a book list have (amongst others) a `public_url` and a `detail_url` that you can redirect your customers to.
+
+Steps:
 
 1. [Obtain a book list](#header-obtain-book-lists) you want to work with.
 2. Redirect your user to `https://paperc.com/<public_or_detail_url>`.  
@@ -143,7 +149,7 @@ Retrieve a JWT that will authenticate you as an eligible B2B user on any other e
             }
 
 ## Obtain a new user JWT [POST /auth/client_jwt/obtain_user_token]
-Retrieve a JWT for one of your users. The user will be created if unknown at [paperc.com](https://paperc.com), assuming this is part of our cooperation agreement.
+Retrieve a JWT for one of your users. The user will be created if not already existent on [paperc.com](https://paperc.com), assuming this is part of our cooperation agreement.
 
 + Request (application/x-www-form-urlencoded)
 
@@ -161,7 +167,7 @@ Retrieve a JWT for one of your users. The user will be created if unknown at [pa
     
             user_email=mail@user.com
             user_language=en
-            user_Country=US
+            user_country=US
         
 + Response 200 (application/json)
             
@@ -195,52 +201,22 @@ Retrieve a JWT for one of your users. The user will be created if unknown at [pa
 
 # Group Book lists
 
-## Get all available book lists [GET /booklists]
-Retrieve a list of all book lists available to you.
+## Booklist [/booklists/{booklist_id}]
++ Parameters
+    + booklist_id: 123 (required, number) - The unique id of the book list.
 
-+ Request (application/x-www-form-urlencoded)
++ Attributes
+    + id: 123 (required, number) - The unique id of the book list.
+    + name: My Booklist (required, string) - The name of the book list.
+    + description: Sample Description (required, string) - A short description of the book list.
+    + book_count: 100 (required, number) - The amount of books in the book list.
+    + url: /api/booklists/1 (required, string) - The URL to retrieve the book list.
+    + books (required, array)
+        + My Awesome Book (Book)
 
-    + Headers
-    
-            Authorization: JWT your.foo.token
-
-+ Response 200 (application/json)
-            
-    + Attributes
-    
-        + id: (required, number) - The unique id of the book list.
-        + name: (required, string) - The name of the book list.
-        + description: (required, string) - A short description of the book list.
-        + book_count: (required, number) - The amount of books in the book list.
-        + url: (required, string) - The URL to retrieve the book list.
-    
-    + Body
-    
-            {
-                "id": 1,
-                "name": "John Doe's book list",
-                "description": "This book list contains books about John's favorite subjects."
-                "book_count": 15,
-                "url": "/api/booklists/1"
-            }
-
-+ Response 403 (application/json)
-            
-    + Body
-    
-            {
-                "detail": {
-                    "code": "SOME_ERROR_CODE",
-                    "message": "A detailed description of what went wrong."
-                }
-            }
-
-## Get a particular book list [GET /booklists/{booklist_id}]
+### Get a particular book list [GET]
 Retrieve a particular book list to view the books inside.
 
-+ Parameters
-
-    + booklist_id: (required, number) - The unique id of the book list.
 
 + Request (application/x-www-form-urlencoded)
 
@@ -250,35 +226,40 @@ Retrieve a particular book list to view the books inside.
 
 + Response 200 (application/json)
             
-    + Attributes
-    
-        + id: (required, number) - The unique id of the book list.
-        + name: (required, string) - The name of the book list.
-        + description: (required, string) - A short description of the book list.
-        + books: (required, object) - A paginated enumeration of books as JSON objects.
+    + Attributes (Booklist)
     
     + Body
     
             {
                 "id": 1,
                 "name": "John Doe's book list",
-                "description": "This book list contains books about John's favorite subjects."
+                "description": "This book list contains books about John's favorite subjects.",
                 "books": {
                     "count": 15,
-                    "results": {
+                    "results": [
                         {
                             "pk": 21465,
                             "title": "The Foo Bar Book",
                             "isbn": "9780745637167",
-                            "author: "John Doe",
+                            "author": "John Doe",
                             "description": "A book about all the Foo Bar in John Doe's life.",
                             "cover_image_url": "/path/to/image",
                             "cover_image_thumbnail_url": "/path/to/thumbnail",
                             "public_url": "path/to/book/in/reader",
                             "detail_url": "path/to/book/details"
                         },
-                        ...
-                    }
+                        {
+                            "pk": 2433,
+                            "title": "Cook Book",
+                            "isbn": "1234567890012",
+                            "author": "Jane Dork",
+                            "description": "A book about all the Does in Jane Dork's life.",
+                            "cover_image_url": "/path/to/image",
+                            "cover_image_thumbnail_url": "/path/to/thumbnail",
+                            "public_url": "path/to/book/in/reader",
+                            "detail_url": "path/to/book/details"
+                        }
+                    ],
                     "links": {
                         "previous": null,
                         "next": null
@@ -296,3 +277,56 @@ Retrieve a particular book list to view the books inside.
                     "message": "A detailed description of what went wrong."
                 }
             }
+
+## Booklists [/booklists]
+
++ Attributes (array[Booklist])
+
+### Get all available book lists [GET]
+Retrieve a list of all book lists available to you.
+
++ Request (application/x-www-form-urlencoded)
+
+    + Headers
+    
+            Authorization: JWT your.foo.token
+
++ Response 200 (application/json)
+    + Attributes (Booklists)
+        
+    + Body
+        
+            [{
+                "id": 1,
+                "name": "John Doe's book list",
+                "description": "This book list contains books about John's favorite subjects."
+                "book_count": 15,
+                "url": "/api/booklists/1"
+            },
+            {
+                "id": 2,
+                "name": "Jane Doe's book list",
+                "description": "This book list contains books about John's favorite subjects."
+                "book_count": 10,
+                "url": "/api/booklists/2"
+            }]
+
++ Response 403 (application/json)
+            
+    + Body
+    
+            {
+                "detail": {
+                    "code": "SOME_ERROR_CODE",
+                    "message": "A detailed description of what went wrong."
+                }
+            }
+
+
+            
+
+# Data Structures
+
+## Book (object)
++ pk: 312 (required, number) - The unique id of the book
++ title: My awesome book (required, string) - The title of the book
