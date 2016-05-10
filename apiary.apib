@@ -201,32 +201,31 @@ Retrieve a JWT for one of your users. The user will be created if not already ex
 
 # Group Book lists
 
-## Booklist [/booklists/{booklist_id}]
+## Book List [/booklists/{booklist_id}]
 + Parameters
     + booklist_id: 123 (required, number) - The unique id of the book list.
 
-+ Attributes
-    + id: 123 (required, number) - The unique id of the book list.
-    + name: My Booklist (required, string) - The name of the book list.
-    + description: Sample Description (required, string) - A short description of the book list.
-    + book_count: 100 (required, number) - The amount of books in the book list.
-    + url: /api/booklists/1 (required, string) - The URL to retrieve the book list.
-    + books (required, array)
-        + My Awesome Book (Book)
++ Attributes (Book List Base)
+    + books (object)
+        + count (number) - The amount of books inside this book list
+        + results (array[Book], fixed) - The books of this book list
+        + links (object) - Pagination links (full URL)
+            + previous: null
+            + next: "http://domain/api/booklists/1?page=2"
 
+        
 ### Get a particular book list [GET]
 Retrieve a particular book list to view the books inside.
 
 
 + Request (application/x-www-form-urlencoded)
-
     + Headers
     
             Authorization: JWT your.foo.token
 
 + Response 200 (application/json)
             
-    + Attributes (Booklist)
+    + Attributes (Book List)
     
     + Body
     
@@ -278,21 +277,22 @@ Retrieve a particular book list to view the books inside.
                 }
             }
 
-## Booklists [/booklists]
+## Book Lists [/booklists]
 
-+ Attributes (array[Booklist])
++ Attributes (array)
+    - (array[Book List Base]) - list of objects of
 
 ### Get all available book lists [GET]
 Retrieve a list of all book lists available to you.
 
 + Request (application/x-www-form-urlencoded)
-
     + Headers
     
             Authorization: JWT your.foo.token
 
 + Response 200 (application/json)
-    + Attributes (Booklists)
+    + Attributes (Book Lists)
+        
         
     + Body
         
@@ -327,6 +327,19 @@ Retrieve a list of all book lists available to you.
 
 # Data Structures
 
+## Book List Base (object)
+- id (required, number) - The unique id of the book list.
+- name (required, string) - The name of the book list.
+- description (required, string) - A short description of the book list.
+- url (required, string) - The URL to retrieve the book list.
+
 ## Book (object)
-+ pk: 312 (required, number) - The unique id of the book
-+ title: My awesome book (required, string) - The title of the book
+- pk (required, number) - The unique id 
+- title (required, string) - The title 
+- isbn (required, number) - The ISBN 
+- author (string) - The author(s) 
+- description (string) - The description 
+- cover_image_url - The URL of the cover image 
+- cover_image_thumbnail_url - The URL of the thumbnail of the cover image
+- public_url - The URL to the book in the reader application
+- detail_url - The URL to the book's detail page
